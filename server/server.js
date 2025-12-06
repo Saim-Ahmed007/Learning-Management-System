@@ -7,10 +7,12 @@ import { clerkWebhooks } from './controllers/webhook.js'
 const PORT = process.env.PORT || 5000
 
 const app = express()
+
+
 await connectDB()
 
-app.use(cors())
 
+app.use(cors())
 app.get('/', (req,res) => res.send('hello'))
 app.post(
   "/clerk",
