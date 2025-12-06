@@ -16,7 +16,7 @@ export const clerkWebhooks = async(req,res) => {
                 const userData = {
                     _id: data.id,
                     email: data.email_addresses[0].email,
-                    name: data.first_name + "" + data.last_name,
+                    name: `${data.first_name} ${data.last_name}`.trim(),
                     imageUrl: data.image_url
                 }
                 await User.create(userData)
@@ -26,8 +26,8 @@ export const clerkWebhooks = async(req,res) => {
                 
             case 'user.updated': {
                  const userData = {
-                    email: data.email_address[0].email,
-                    name: data.first_name + "" + data.last_name,
+                    email: data.email_addresses[0].email,
+                    name: `${data.first_name} ${data.last_name}`.trim(),
                     imageUrl: data.image_url
                 }
                 await User.findByIdAndUpdate(data.id, userData)
@@ -42,7 +42,7 @@ export const clerkWebhooks = async(req,res) => {
             }
         
             default:
-                break;
+                return res.json({});
         }
     } catch (error) {
         res.json({success: false, message: error.message})

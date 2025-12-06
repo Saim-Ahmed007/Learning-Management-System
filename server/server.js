@@ -12,7 +12,11 @@ await connectDB()
 app.use(cors())
 
 app.get('/', (req,res) => res.send('hello'))
-app.post('/clerk', express.json(), clerkWebhooks)
+app.post(
+  "/clerk",
+  express.raw({ type: "application/json" }), 
+  clerkWebhooks
+);
 
 app.listen(PORT, ()=> {
     console.log(`server is listening from ${PORT}`)
