@@ -5,17 +5,20 @@ import connectDB from './configs/mongoDb.js'
 import { clerkWebhooks } from './controllers/webhook.js'
 
 const PORT = process.env.PORT || 5000
-
 const app = express()
-
 
 await connectDB()
 
-
 app.use(cors())
-app.get('/', (req,res) => res.send('hello'))
-app.post('/clerk', express.json(), clerkWebhooks)
+app.get('/', (req, res) => res.send('hello'))
 
-app.listen(PORT, ()=> {
-    console.log(`server is listening from ${PORT}`)
+// ✔️ MUST match Clerk Dashboard webhook URL
+app.post(
+  "/clerk",
+  express.raw({ type: "application/json" }),
+  clerkWebhooks
+)
+
+app.listen(PORT, () => {
+  console.log(`server is listening from ${PORT}`)
 })
